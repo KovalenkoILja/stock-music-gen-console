@@ -77,8 +77,9 @@ class Application:
                     length = 32
                     generate_interpolation_for(model_name, music_vae, num_steps, length, twinkle_twinkle(), teapot())
 
-            # elif input.user_input == "5":
-            #     print("5 input")
+            elif input.user_input == "5":
+                print("5 input")
+
             # elif input.user_input == "6":
             #     print("6 input")
             # elif input.user_input == "7":
@@ -128,7 +129,7 @@ class Application:
         print("2: generate continue for twinkle_twinkle")
         print("3: generate continue for teapot")
         print("4: generate interpolating between twinkle_twinkle and teapot")
-        # print("5: ")
+        print("5: ")
         # print("6: ")
         # print("7: ")
         # print("8: ")
