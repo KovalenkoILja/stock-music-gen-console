@@ -5,6 +5,10 @@ import magenta.music as mm
 
 def init_contents():
     if os.path.exists("./content"):
+        if not os.path.isfile("./content/polyphony_rnn.mag"):
+            print("polyphony_rnn.mag doesnt find!")
+            mm.notebook_utils.download_bundle('polyphony_rnn.mag', './content/')
+            print("polyphony_rnn.mag successfully downloaded")
         if not os.path.isfile("./content/basic_rnn.mag"):
             print("basic_rnn.mag doesnt find!")
             mm.notebook_utils.download_bundle('basic_rnn.mag', './content/')
