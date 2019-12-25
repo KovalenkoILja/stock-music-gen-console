@@ -1,12 +1,15 @@
 import os
-
+import glob
 import input
+import magenta.music as mm
 from modules.common.create_dir import check_dir
 from modules.common.print_version import print_versions
 from modules.common.user_input import wait_for_user_input
 from modules.generation.check_contents import init_contents
 from modules.generation.generate_continue import generate_continue_for
 from modules.generation.generate_interpolation import generate_interpolation_for
+from modules.generation.generator_setup import setup_generator
+from modules.generation.initialisation_rnn import init_melody_rnn
 from modules.generation.initialisation_vae import init_music_vae
 from modules.midi.create_samples import create_midi_samples
 from modules.midi.teapot import teapot
@@ -78,12 +81,29 @@ class Application:
                     generate_interpolation_for(model_name, music_vae, num_steps, length, twinkle_twinkle(), teapot())
 
             elif input.user_input == "5":
-                print("5 input")
+                print()
+
                 path = "./input"
                 check_dir(path)
+                check_dir("./output")
 
-            # elif input.user_input == "6":
-            #     print("6 input")
+                for file in glob.glob(path + "/*.mid"):
+                    name = os.path.splitext(os.path.basename(file))[0]
+                    print(name)
+                    input_sequence = mm.midi_file_to_note_sequence(file)
+                    num_steps = 1028
+                    temperature = 1.0
+                    model_name = 'basic_rnn'
+                    generate_continue_for(name, input_sequence, model_name, num_steps, temperature)
+                    model_name = 'attention_rnn'
+                    generate_continue_for(name, input_sequence, model_name, num_steps, temperature)
+                    model_name = 'lookback_rnn'
+                    generate_continue_for(name, input_sequence, model_name, num_steps, temperature)
+                    model_name = 'mono_rnn'
+                    generate_continue_for(name, input_sequence, model_name, num_steps, temperature)
+
+            elif input.user_input == "6":
+                print("6 input")
             # elif input.user_input == "7":
             #     print("7 input")
             # elif input.user_input == "8":
